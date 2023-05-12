@@ -1,6 +1,4 @@
-import java.sql.*;
-
-class PSQL {
+public class PSQL implements AutoCloseable {
 
     private Connection connection;
     private Statement statement;
@@ -12,13 +10,16 @@ class PSQL {
 
     public void insertValues(String tableName, Object ... values) throws SQLException {
 
-        tableName.matches("\\w+");
+        if(!tableName.matches("\\w+")) //injection protection
+            throw new SQLException("Illegal table name");
 
         StringBuilder build = new StringBuilder("INSERT INTO " + tableName + " VALUES (");
         for(var value : values) {
+            if(!value.toString().contains(";")) //injection protection
+                throw new SQLException("Illegal value");
 
             if(value instanceof String)
-                build.append("'" + value + "', ");
+                build.append("'" + value + "', "); 
             else
                 build.append( value + ", ");
 
@@ -35,21 +36,31 @@ class PSQL {
         ResultSet result = statement.executeQuery("SELECT * FROM " + tableName);
 
         int count = result.getMetaData().getColumnCount();
+        StringBuilder build = new StringBuilder();
 
-        for(int i = 1; i <= count; i++)
-            System.out.print(result.getMetaData().getColumnName(i) + " ");
-        System.out.println();
+        for(int i = 1; i <= count; i++)     //appending columns names in StringBuilder
+            build.append(result.getMetaData().getColumnName(i) + " ");
+        build.append("\n");
 
 
-        while(result.next()) {
+        while(result.next()) {  //printng values in StringBuilder
             for (int i = 1; i <= count; i++)
-                System.out.print(result.getObject(i) + " ");
-            System.out.println();
+                build.append(result.getObject(i) + " ");
+            build.append("\n");
         }
+
+        System.out.println(build); //printing StringBuilder
+
     }
 
     public void execute(String command) throws SQLException {
         statement.execute(command);
     }
+
+    public ResultSet executeWithAnswer(String command) throws SQLException {
+        return statement.executeQuery(command);
+    }
+
+    public void close() throws SQLException { connection.close(); statement.close();}
 
 }
