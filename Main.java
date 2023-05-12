@@ -1,20 +1,5 @@
 import java.sql.*;
 
-public class Main {
-
-    public static void main(String[] args) throws SQLException {
-
-        Connection connection  = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/postgres",
-                "postgres", "123");
-
-        PSQL db = new PSQL(connection);
-
-        //db.insertValues("people", "mikle", 15,3 );
-        db.printValues("people");
-    }
-}
-
 class PSQL {
 
     private Connection connection;
