@@ -82,7 +82,7 @@ public class PSQL implements AutoCloseable {
             System.out.println(str);
     }
 
-    public void execute(String command) throws SQLException { //executin
+    public void execute(String command) throws SQLException { //executing command
         statement.execute(command);
     }
 
