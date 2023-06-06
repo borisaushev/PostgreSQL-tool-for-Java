@@ -16,6 +16,6 @@ public void executeAndPrintAnswer(String command) throws SQLException { //execut
   
 public void close() throws SQLException { connection.close(); statement.close();} //closing all connections
  
-need to mention what PSQL class inplements AutoCloseable, so you can use it in
+//need to mention what PSQL class implements AutoCloseable, so you can use it in
   try(PSQL db = new PSQL(connection)) {}
  form and it will be closed automaticly
