@@ -2,6 +2,7 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
+//Я надеюсь никто нмкогда не узнает о существовании этого кошмара
 public class PSQL implements AutoCloseable {
 
     private final Connection connection;
@@ -89,3 +90,32 @@ public class PSQL implements AutoCloseable {
     public void close() throws SQLException { connection.close(); statement.close();} //closing all connections
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
